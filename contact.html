@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Contact — Zendacom</title>
+<meta name="description" content="Have a question or a project in mind? Send Zendacom a quick note and we'll figure it out together.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500&family=Nunito+Sans:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body class="theme-bone">
+
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header class="site-header">
+  <a class="wordmark" href="index.html">Zendacom</a>
+  <nav class="nav" aria-label="Main">
+    <a href="about.html">About</a>
+    <a href="contact.html" aria-current="page">Contact</a>
+  </nav>
+</header>
+
+<main id="main">
+
+  <section class="split">
+    <div class="split__copy">
+      <h1>Ready to Start?<br>Let&rsquo;s Talk</h1>
+      <p class="lead">Have a question or a project in mind? Send us a quick note, and we&rsquo;ll
+        figure it out together.</p>
+
+      <form class="form" data-mailto="zendacom.inc@outlook.com" novalidate>
+        <fieldset>
+          <legend>Name</legend>
+          <div class="field-row">
+            <div class="field">
+              <label for="contact-first">First Name <span class="req">(required)</span></label>
+              <input type="text" id="contact-first" name="firstName" autocomplete="given-name" required>
+            </div>
+            <div class="field">
+              <label for="contact-last">Last Name <span class="req">(required)</span></label>
+              <input type="text" id="contact-last" name="lastName" autocomplete="family-name" required>
+            </div>
+          </div>
+        </fieldset>
+
+        <div class="field">
+          <label for="contact-email">Email <span class="req">(required)</span></label>
+          <input type="email" id="contact-email" name="email" autocomplete="email" required>
+        </div>
+
+        <div class="field">
+          <label for="contact-message">Message <span class="req">(required)</span></label>
+          <textarea id="contact-message" name="message" rows="5" required></textarea>
+        </div>
+
+        <div class="form-actions">
+          <button class="btn btn--navy" type="submit">Send</button>
+          <p class="form-note" role="status" aria-live="polite"></p>
+        </div>
+      </form>
+    </div>
+
+    <div class="split__media">
+      <img
+        src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=1400&amp;q=80&amp;fm=jpg&amp;fit=crop"
+        alt="A modern building at dusk framed by a mature tree and planted garden.">
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <p>&copy; 2026 Zendacom</p>
+</footer>
+
+<script src="js/script.js"></script>
+</body>
+</html>

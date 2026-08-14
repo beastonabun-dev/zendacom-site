@@ -1,0 +1,419 @@
+/* ==========================================================================
+   Zendacom — design tokens
+   ========================================================================== */
+
+:root {
+  --navy: #2a3756;
+  --navy-deep: #222d47;
+  --bone: #e3e3de;
+  --ink: #111111;
+  --white: #ffffff;
+
+  /* Muted text, one per surface */
+  --ink-muted: rgba(17, 17, 17, 0.62);
+  --white-muted: rgba(255, 255, 255, 0.72);
+
+  /* Input borders. Deliberately lighter than the mockups so the field
+     boundary clears the 3:1 contrast floor for UI components. */
+  --line-on-navy: rgba(255, 255, 255, 0.55);
+  --line-on-bone: rgba(17, 17, 17, 0.55);
+
+  --font-display: "Outfit", "Segoe UI", system-ui, sans-serif;
+  --font-body: "Nunito Sans", "Segoe UI", system-ui, sans-serif;
+
+  --pad-x: clamp(1.5rem, 5vw, 4rem);
+  --pill: 999px;
+}
+
+/* ==========================================================================
+   Reset
+   ========================================================================== */
+
+*,
+*::before,
+*::after { box-sizing: border-box; }
+
+html { -webkit-text-size-adjust: 100%; }
+
+body {
+  margin: 0;
+  font-family: var(--font-body);
+  font-size: clamp(1rem, 0.95rem + 0.25vw, 1.125rem);
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+}
+
+h1, h2, h3 {
+  font-family: var(--font-display);
+  font-weight: 400;
+  line-height: 1.04;
+  letter-spacing: -0.015em;
+  margin: 0;
+}
+
+p { margin: 0 0 1.25rem; }
+
+/* ==========================================================================
+   Surfaces — set once on <body>, everything else inherits
+   ========================================================================== */
+
+.theme-navy {
+  background: var(--navy);
+  color: var(--white);
+}
+
+.theme-bone {
+  background: var(--bone);
+  color: var(--ink);
+}
+
+/* ==========================================================================
+   Header
+   ========================================================================== */
+
+.site-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+  padding: 1.75rem var(--pad-x);
+}
+
+.wordmark {
+  font-family: var(--font-display);
+  font-size: clamp(1.35rem, 1.1rem + 0.8vw, 1.75rem);
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  text-decoration: none;
+  color: inherit;
+}
+
+.nav {
+  display: flex;
+  gap: clamp(1.25rem, 3vw, 2.5rem);
+}
+
+.nav a {
+  color: inherit;
+  text-decoration: none;
+  font-size: 1.0625rem;
+  padding-bottom: 2px;
+  border-bottom: 1px solid transparent;
+}
+
+.nav a:hover,
+.nav a:focus-visible { border-bottom-color: currentColor; }
+
+/* Current page stays underlined */
+.nav a[aria-current="page"] { border-bottom-color: currentColor; }
+
+/* ==========================================================================
+   Split hero — text left, full-bleed image right
+   ========================================================================== */
+
+/* Copy takes slightly more than half, matching the mockups and giving the
+   headings room to break where the <br> intends rather than wrapping again. */
+.split {
+  display: grid;
+  grid-template-columns: 1.12fr 0.88fr;
+  align-items: center;
+  gap: clamp(2rem, 5vw, 4rem);
+  min-height: min(78vh, 820px);
+}
+
+.split__copy {
+  padding: clamp(2rem, 5vw, 4rem) 0 clamp(2rem, 5vw, 4rem) var(--pad-x);
+  max-width: 40rem;
+}
+
+/* Image runs to a gutter short of the right edge, as in the mockups */
+.split__media {
+  align-self: stretch;
+  padding: clamp(1rem, 2.5vw, 2rem) var(--pad-x) 0 0;
+}
+
+.split__media img {
+  width: 100%;
+  height: 100%;
+  min-height: 20rem;
+  object-fit: cover;
+}
+
+h1 { font-size: clamp(2.75rem, 1.5rem + 4.4vw, 4.6rem); }
+
+.lead {
+  font-size: clamp(1.0625rem, 1rem + 0.4vw, 1.375rem);
+  margin-top: 1.75rem;
+  max-width: 32ch;
+}
+
+/* The interior pages carry longer intros than the home hero */
+.theme-bone .split .lead { max-width: 46ch; }
+
+.body-copy { max-width: 44ch; }
+
+/* ==========================================================================
+   Buttons
+   ========================================================================== */
+
+.btn {
+  display: inline-block;
+  border: 0;
+  border-radius: var(--pill);
+  padding: 1.15rem 2.75rem;
+  font-family: var(--font-body);
+  font-size: 1.0625rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  text-decoration: none;
+  cursor: pointer;
+  transition: transform 0.15s ease, opacity 0.15s ease;
+}
+
+.btn:hover { transform: translateY(-2px); }
+.btn:active { transform: translateY(0); }
+
+.btn--light {
+  background: var(--white);
+  color: var(--navy);
+}
+
+.btn--navy {
+  background: var(--navy);
+  color: var(--white);
+}
+
+.hero-cta { margin-top: clamp(2rem, 4vw, 3.25rem); }
+
+/* ==========================================================================
+   Follow Our Journey
+   ========================================================================== */
+
+.journey {
+  background: var(--bone);
+  color: var(--ink);
+  padding: clamp(3.5rem, 8vw, 7rem) var(--pad-x) clamp(3.5rem, 8vw, 6rem);
+}
+
+.journey h2 {
+  font-size: clamp(2rem, 1.2rem + 3.2vw, 3.75rem);
+  text-align: center;
+  margin-bottom: clamp(2.5rem, 6vw, 5rem);
+}
+
+.journey-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: clamp(1rem, 2.5vw, 1.75rem);
+  align-items: center;
+}
+
+.journey-grid figure { margin: 0; }
+
+.journey-grid img {
+  width: 100%;
+  aspect-ratio: 5 / 7;
+  object-fit: cover;
+}
+
+/* Every other frame is an oval, matching the mockup rhythm */
+.journey-grid figure:nth-child(even) img { border-radius: 50%; }
+
+/* ==========================================================================
+   Contact section (navy band on the home page)
+   ========================================================================== */
+
+.contact-band {
+  padding: clamp(3.5rem, 8vw, 6.5rem) var(--pad-x) clamp(3rem, 6vw, 5rem);
+  text-align: center;
+}
+
+.contact-band h2 {
+  font-size: clamp(2.25rem, 1.2rem + 4vw, 4.5rem);
+  margin-bottom: 1.25rem;
+}
+
+.contact-band .lead {
+  margin: 0 auto;
+  max-width: 66ch;
+}
+
+.contact-band .form {
+  margin: clamp(2.5rem, 6vw, 4.5rem) auto 0;
+  max-width: 47rem;
+  text-align: left;
+}
+
+.contact-band .form-actions { text-align: center; }
+
+/* ==========================================================================
+   Forms
+   ========================================================================== */
+
+.form fieldset {
+  border: 0;
+  margin: 0 0 1.5rem;
+  padding: 0;
+}
+
+.form legend {
+  padding: 0;
+  margin-bottom: 0.85rem;
+  font-size: 1.0625rem;
+}
+
+.field { margin-bottom: 1.5rem; }
+
+.field label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-size: 0.9375rem;
+}
+
+.req {
+  opacity: 0.65;
+  font-size: 0.875rem;
+}
+
+.field input,
+.field textarea {
+  width: 100%;
+  font-family: var(--font-body);
+  font-size: 1rem;
+  color: inherit;
+  background: transparent;
+  border: 1px solid;
+  border-radius: var(--pill);
+  padding: 0.95rem 1.4rem;
+}
+
+.field textarea {
+  border-radius: 1.75rem;
+  min-height: 9rem;
+  resize: vertical;
+}
+
+/* Border colour follows the surface the form sits on */
+.theme-navy .field input,
+.theme-navy .field textarea { border-color: var(--line-on-navy); }
+
+.theme-bone .field input,
+.theme-bone .field textarea { border-color: var(--line-on-bone); }
+
+/* Two-up name row */
+.field-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.25rem;
+}
+
+.form-actions { margin-top: 2rem; }
+
+/* Feedback line after a submit attempt */
+.form-note {
+  margin: 1rem 0 0;
+  font-size: 0.9375rem;
+}
+
+.form-note:empty { margin: 0; }
+
+/* ==========================================================================
+   Footer
+   ========================================================================== */
+
+.site-footer {
+  padding: 2.5rem var(--pad-x) 3rem;
+  text-align: center;
+  font-size: 0.9375rem;
+  color: var(--white-muted);
+}
+
+.theme-bone .site-footer { color: var(--ink-muted); }
+
+/* ==========================================================================
+   Focus — visible on every surface
+   ========================================================================== */
+
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+textarea:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 3px;
+}
+
+.theme-navy .btn--light:focus-visible { outline-color: var(--white); }
+
+/* ==========================================================================
+   Skip link
+   ========================================================================== */
+
+.skip-link {
+  position: absolute;
+  left: -9999px;
+  top: 0;
+  background: var(--white);
+  color: var(--navy);
+  padding: 0.75rem 1.25rem;
+  z-index: 10;
+}
+
+.skip-link:focus {
+  left: var(--pad-x);
+  top: 0.75rem;
+}
+
+/* ==========================================================================
+   Responsive
+   ========================================================================== */
+
+@media (max-width: 900px) {
+  .split {
+    grid-template-columns: 1fr;
+    min-height: 0;
+  }
+
+  .split__copy {
+    padding: clamp(1.5rem, 6vw, 3rem) var(--pad-x);
+    max-width: none;
+  }
+
+  .split__media { padding: 0; }
+
+  .split__media img {
+    min-height: 0;
+    aspect-ratio: 4 / 3;
+    height: auto;
+  }
+
+  .lead,
+  .body-copy { max-width: none; }
+
+  /* 4-across becomes 2x2 */
+  .journey-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 560px) {
+  .field-row { grid-template-columns: 1fr; }
+
+  .btn {
+    width: 100%;
+    text-align: center;
+    padding-inline: 1.5rem;
+  }
+
+  .site-header { padding-block: 1.25rem; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    transition: none !important;
+    animation: none !important;
+  }
+  .btn:hover { transform: none; }
+}
