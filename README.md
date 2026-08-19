@@ -62,20 +62,27 @@ Keep the hero and about/contact images wide (~1400px) and the journey images por
 ## The contact form
 
 Submissions go through [Web3Forms](https://web3forms.com), which emails each one to the address
-registered against your access key. There is no account to create and no server to run.
+registered against your access key. No server or backend code to run. Their free tier covers
+250 submissions/month with no credit card.
 
 ### Setting the access key
 
 The forms currently ship with a placeholder and **will not send until you replace it**.
 
-1. Go to [web3forms.com](https://web3forms.com), enter the address you want enquiries sent to,
-   and they email you an access key (a UUID).
-2. Replace `REPLACE_WITH_YOUR_WEB3FORMS_ACCESS_KEY` with that key in **both** `index.html` and
-   `contact.html`.
+1. Go to [web3forms.com](https://web3forms.com) and enter the address you want enquiries sent
+   to. You will need to **verify that address by email** before the key is issued, and signing
+   up agrees to their terms and to marketing contact — so this step has to be done by whoever
+   owns the mailbox.
+2. Replace `REPLACE_WITH_YOUR_WEB3FORMS_ACCESS_KEY` with the key (a UUID) in **both**
+   `index.html` and `contact.html`.
 3. Commit and push.
 
 Until then, clicking Send shows an inline message saying the form isn't connected yet, rather
 than failing silently.
+
+The key is not a secret in the usual sense — it ships in public HTML by design, and only
+authorises sending mail to the address it was registered against. Rotate it from the Web3Forms
+dashboard if it ever attracts spam.
 
 ### How it works
 
