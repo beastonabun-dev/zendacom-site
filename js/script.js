@@ -77,7 +77,8 @@
           form.reset();
           setNote(
             note,
-            "Thanks — your message is on its way. We'll reply within one business day.",
+            "Your message has been sent to our team and we'll get back to you soon. "
+              + "Thank you for your inquiry!",
             "success"
           );
         })
