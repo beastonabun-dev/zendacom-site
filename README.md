@@ -67,21 +67,22 @@ registered against your access key. No server or backend code to run. Their free
 
 ### Setting the access key
 
-The forms currently ship with a placeholder and **will not send until you replace it**.
+The key is live and set in both `index.html` and `contact.html`.
 
-1. Go to [web3forms.com](https://web3forms.com) and enter the address you want enquiries sent
-   to. You will need to **verify that address by email** before the key is issued, and signing
-   up agrees to their terms and to marketing contact — so this step has to be done by whoever
-   owns the mailbox.
-2. Replace `REPLACE_WITH_YOUR_WEB3FORMS_ACCESS_KEY` with the key (a UUID) in **both**
-   `index.html` and `contact.html`.
-3. Commit and push.
+**Where enquiries land is controlled in the Web3Forms dashboard, not in this code.** The account
+is registered to `beastonabun@gmail.com`, with the form's recipient overridden to
+`zendacom.inc@outlook.com`. To change the destination, edit the recipient on the form's settings
+page — do not look for it in the HTML.
 
-Until then, clicking Send shows an inline message saying the form isn't connected yet, rather
-than failing silently.
+To issue a replacement key: create a form at [web3forms.com](https://web3forms.com) (the address
+must be verified by email, and signing up agrees to their terms and marketing contact), then
+swap the `access_key` value in both files.
+
+If a key is ever missing or left as a placeholder, clicking Send shows an inline "not connected
+yet" message rather than failing silently.
 
 The key is not a secret in the usual sense — it ships in public HTML by design, and only
-authorises sending mail to the address it was registered against. Rotate it from the Web3Forms
+authorises delivery to the recipient configured on the form. Rotate it from the Web3Forms
 dashboard if it ever attracts spam.
 
 ### How it works
