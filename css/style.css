@@ -417,3 +417,44 @@ textarea:focus-visible {
   }
   .btn:hover { transform: none; }
 }
+
+/* ==========================================================================
+   Form feedback + honeypot
+   ========================================================================== */
+
+:root {
+  --ok-on-navy: #9ce0b4;
+  --ok-on-bone: #1a6b39;
+  --bad-on-navy: #ffb4ae;
+  --bad-on-bone: #9e241c;
+}
+
+/* Honeypot. Kept off-screen rather than display:none — bots are likelier to
+   fill a field they can still see in the DOM flow. */
+.hp {
+  position: absolute !important;
+  left: -9999px;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* The note is the only feedback the visitor gets, so give it real presence. */
+.form-note {
+  font-size: 1rem;
+  line-height: 1.5;
+  max-width: 46ch;
+}
+
+.contact-band .form-note {
+  margin-inline: auto;
+}
+
+.form-note[data-state="pending"] { opacity: 0.75; }
+
+.theme-navy .form-note[data-state="success"] { color: var(--ok-on-navy); }
+.theme-bone .form-note[data-state="success"] { color: var(--ok-on-bone); }
+
+.theme-navy .form-note[data-state="error"] { color: var(--bad-on-navy); }
+.theme-bone .form-note[data-state="error"] { color: var(--bad-on-bone); }

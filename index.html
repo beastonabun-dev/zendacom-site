@@ -67,7 +67,23 @@
     <h2 id="contact-heading">Have Questions? Let's Talk</h2>
     <p class="lead">Send us a quick note and we'll get back within one business day.</p>
 
-    <form class="form" data-mailto="zendacom.inc@outlook.com" novalidate>
+    <!-- Posts to Web3Forms, which emails each submission to the address
+         registered against the access key below. The form works without
+         JavaScript (it POSTs and lands on thanks.html); js/script.js
+         upgrades it to submit in place. -->
+    <form class="form" action="https://api.web3forms.com/submit" method="POST"
+          data-fallback-email="zendacom.inc@outlook.com">
+
+      <!-- REPLACE THIS with the access key Web3Forms emails you.
+           Get one free at https://web3forms.com - no account needed. -->
+      <input type="hidden" name="access_key" value="REPLACE_WITH_YOUR_WEB3FORMS_ACCESS_KEY">
+
+      <input type="hidden" name="subject" value="New enquiry from zendacom.com">
+      <input type="hidden" name="from_name" value="Zendacom website">
+      <input type="hidden" name="redirect" value="https://zendacom.com/thanks.html">
+
+      <!-- Honeypot: bots fill it, people never see it. -->
+      <input type="checkbox" name="botcheck" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true">
       <fieldset>
         <legend>Name</legend>
         <div class="field-row">

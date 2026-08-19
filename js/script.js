@@ -1,74 +1,101 @@
 /* Zendacom — contact form.
  *
- * GitHub Pages has no server to send mail from, so the form composes a
- * message and hands it to the visitor's own email client. The destination
- * address lives in the `data-mailto` attribute on the <form>, so changing
- * it is a one-word HTML edit — nothing here needs touching.
+ * The form itself is a plain HTML POST to Web3Forms, so it still works with
+ * JavaScript disabled: the browser posts, Web3Forms emails the submission on,
+ * and the visitor lands on thanks.html.
  *
- * To move to a real form service later (Formspree, Web3Forms, etc.), give
- * the form an `action` and `method="POST"` and delete this file's <script>
- * tag. The field names below are already the conventional ones.
+ * This file is a progressive enhancement. It submits the same data with fetch
+ * so the visitor stays on the page and gets an inline confirmation instead of
+ * a redirect.
+ *
+ * Nothing here needs editing to change where mail goes — that is determined by
+ * the address you registered against the access_key in the HTML.
  */
 (function () {
   "use strict";
 
-  // Some mail clients silently truncate very long mailto: bodies.
-  var BODY_LIMIT = 1800;
+  var PLACEHOLDER = "REPLACE_WITH_YOUR_WEB3FORMS_ACCESS_KEY";
 
-  function fieldValue(form, name) {
-    var el = form.elements[name];
-    return el ? el.value.trim() : "";
+  function setNote(note, message, state) {
+    if (!note) return;
+    note.textContent = message;
+    note.dataset.state = state || "";
   }
 
-  function setNote(note, text) {
-    if (note) {
-      note.textContent = text;
-    }
+  function fallbackText(form) {
+    var address = form.dataset.fallbackEmail;
+    return address ? " Please email us directly at " + address + "." : "";
   }
 
-  function handleSubmit(form, note) {
+  function handle(form, note) {
     return function (event) {
+      // The form has no `novalidate`, so the browser has already enforced the
+      // required fields and email format before this fires.
       event.preventDefault();
 
-      // Let the browser do the required/email-format checks and focus the
-      // first offending field.
-      if (!form.reportValidity()) {
+      var key = form.elements.access_key;
+      if (key && key.value === PLACEHOLDER) {
+        setNote(
+          note,
+          "This form isn't connected yet — the Web3Forms access key is still a placeholder." +
+            fallbackText(form),
+          "error"
+        );
         return;
       }
 
-      var first = fieldValue(form, "firstName");
-      var last = fieldValue(form, "lastName");
-      var email = fieldValue(form, "email");
-      var message = fieldValue(form, "message");
+      var button = form.querySelector('button[type="submit"]');
+      var label = button ? button.textContent : "";
 
-      var subject = "Website enquiry from " + first + " " + last;
-      var body =
-        message +
-        "\r\n\r\n--\r\n" +
-        "From: " + first + " " + last + "\r\n" +
-        "Email: " + email;
-
-      if (body.length > BODY_LIMIT) {
-        body = body.slice(0, BODY_LIMIT) + "\r\n\r\n[message truncated]";
+      if (button) {
+        button.disabled = true;
+        button.textContent = "Sending…";
       }
+      setNote(note, "Sending your message…", "pending");
 
-      // The address is author-controlled, so it goes in as-is; everything
-      // typed by a visitor is escaped.
-      var href =
-        "mailto:" + form.dataset.mailto +
-        "?subject=" + encodeURIComponent(subject) +
-        "&body=" + encodeURIComponent(body);
-
-      setNote(note, "Opening your email app… if nothing happens, write to " + form.dataset.mailto + " directly.");
-
-      window.location.href = href;
+      fetch(form.action, {
+        method: "POST",
+        headers: { Accept: "application/json" },
+        body: new FormData(form)
+      })
+        .then(function (response) {
+          // Web3Forms answers with JSON when Accept: application/json is sent,
+          // but treat a bare 2xx as success rather than failing on a parse error.
+          return response
+            .json()
+            .catch(function () {
+              return { success: response.ok };
+            })
+            .then(function (data) {
+              return { ok: response.ok, data: data };
+            });
+        })
+        .then(function (result) {
+          if (!result.ok || !result.data.success) {
+            throw new Error(result.data && result.data.message);
+          }
+          form.reset();
+          setNote(
+            note,
+            "Thanks — your message is on its way. We'll reply within one business day.",
+            "success"
+          );
+        })
+        .catch(function () {
+          setNote(note, "Sorry, that didn't send." + fallbackText(form), "error");
+        })
+        .then(function () {
+          if (button) {
+            button.disabled = false;
+            button.textContent = label;
+          }
+        });
     };
   }
 
-  var forms = document.querySelectorAll("form[data-mailto]");
+  var forms = document.querySelectorAll('form[action*="web3forms"]');
 
   Array.prototype.forEach.call(forms, function (form) {
-    var note = form.querySelector(".form-note");
-    form.addEventListener("submit", handleSubmit(form, note));
+    form.addEventListener("submit", handle(form, form.querySelector(".form-note")));
   });
 })();

@@ -13,6 +13,7 @@ index.html      Home — hero, Follow Our Journey, contact section
 about.html      About
 contact.html    Contact
 404.html        Not-found page (GitHub Pages serves this automatically)
+thanks.html     Confirmation page for the no-JavaScript submit path
 css/style.css   All styling. Design tokens are at the top in :root
 js/script.js    Contact form handler
 CNAME           Custom domain. Deleting this reverts to the github.io URL
@@ -60,22 +61,41 @@ Keep the hero and about/contact images wide (~1400px) and the journey images por
 
 ## The contact form
 
-GitHub Pages can't send mail, so the form composes a message and opens the visitor's own email
-client, addressed to `zendacom.inc@outlook.com`.
+Submissions go through [Web3Forms](https://web3forms.com), which emails each one to the address
+registered against your access key. There is no account to create and no server to run.
 
-Change the address in the `data-mailto` attribute on the `<form>` in **both** `index.html` and
-`contact.html`. Nothing in `js/script.js` needs editing.
+### Setting the access key
 
-Worth knowing: this depends on the visitor having a mail client configured, and some clients
-truncate long messages (the script caps the body at 1800 characters). If enquiries start
-mattering, move to a form service — sign up with [Formspree](https://formspree.io), then on
-both forms:
+The forms currently ship with a placeholder and **will not send until you replace it**.
 
-1. Add `action="https://formspree.io/f/YOUR_ID" method="POST"`
-2. Remove `novalidate` and the `data-mailto` attribute
-3. Delete the `<script src="js/script.js"></script>` tag
+1. Go to [web3forms.com](https://web3forms.com), enter the address you want enquiries sent to,
+   and they email you an access key (a UUID).
+2. Replace `REPLACE_WITH_YOUR_WEB3FORMS_ACCESS_KEY` with that key in **both** `index.html` and
+   `contact.html`.
+3. Commit and push.
 
-The field names (`firstName`, `lastName`, `email`, `message`) are already the conventional ones.
+Until then, clicking Send shows an inline message saying the form isn't connected yet, rather
+than failing silently.
+
+### How it works
+
+Each form is an ordinary HTML `POST`, so it still works with JavaScript disabled — the browser
+posts, Web3Forms emails it on, and the visitor lands on `thanks.html`. `js/script.js` is a
+progressive enhancement that submits the same data with `fetch` so the visitor stays on the page
+and sees an inline confirmation instead.
+
+To change where mail goes, register a new key against the new address — nothing in the JS needs
+editing. The `data-fallback-email` attribute on each form is only used in the error message shown
+if a submission fails.
+
+A hidden `botcheck` honeypot field catches the simplest spam bots. Leave it in place.
+
+### Switching to a different service
+
+The field names (`firstName`, `lastName`, `email`, `message`) are conventional, so moving to
+Formspree or similar means changing the `action` URL and swapping the `access_key` hidden input
+for whatever that service uses. The `fetch` handler keys off `form[action*="web3forms"]`, so
+update that selector too, or drop `js/script.js` entirely and let the plain POST do the work.
 
 ## Deploying
 
